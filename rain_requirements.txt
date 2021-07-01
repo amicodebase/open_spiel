@@ -1,0 +1,21 @@
+# tensorflow
+# tensorboard
+# torch
+# scipy
+jupyter
+jupyterlab == 3.0.14
+# For using kite
+jupyterlab-kite>=2.0.2
+# For using git
+jupyterlab-git
+# For using debugger
+xeus-python
+# For formatting the code
+jupyterlab_code_formatter
+black
+isort
+# For using tensorboard in jupyterlab
+# tensorflow==2,2,0
+tensorboard==2.2.0
+git+https://github.com/cliffwoolley/jupyter_tensorboard.git
+git+https://github.com/chaoleili/jupyterlab_tensorboard.git

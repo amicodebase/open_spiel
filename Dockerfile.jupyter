@@ -20,6 +20,8 @@ RUN sudo pip3 install matplotlib
 # install
 COPY . .
 RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
+ENV OPEN_SPIEL_BUILD_WITH_ACPC="ON"
+ENV OPEN_SPIEL_BUILD_WITH_HANABI="ON"
 RUN ./install.sh
 RUN pip3 install --upgrade setuptools testresources 
 RUN pip3 install --upgrade -r requirements.txt
@@ -33,11 +35,18 @@ RUN make -j12
 ENV PYTHONPATH=${PYTHONPATH}:/repo
 ENV PYTHONPATH=${PYTHONPATH}:/repo/build/python
 # ctest can be disabled for faster builds when tests are not required
-RUN ctest -j12
-WORKDIR /repo/open_spiel
+# RUN ctest -j12
+WORKDIR /
 
 # Jupyterlab Environment
 FROM base as jupyterlab
-RUN pip install jupyter -U && pip install jupyterlab
+# RUN pip3 install jupyter -U && pip install jupyterlab
+RUN apt-get -y install \
+	nodejs \
+	npm \
+	wget
+RUN bash -c '/bin/echo -e "\ny\n\n" | bash -c "$(wget -q -O - https://linux.kite.com/dls/linux/current)"'
+RUN pip3 install --upgrade -r /repo/rain_requirements.txt
+
 EXPOSE 8888
-ENTRYPOINT ["jupyter", "lab","--ip=0.0.0.0","--allow-root"]
+# ENTRYPOINT ["jupyter", "lab","--ip=0.0.0.0","--allow-root"]
